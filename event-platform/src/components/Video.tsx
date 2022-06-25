@@ -1,48 +1,22 @@
 import { DefaultUi, Player, Youtube } from "@vime/react";
 import { CaretRight, DiscordLogo, FileArrowDown, Lightning } from "phosphor-react";
-import { gql, useQuery } from "@apollo/client";
 import '@vime/core/themes/default.css'
+import { useGetLessonBySlugQuery } from "../graphql/generated";
 
-const GET_LESSON_BY_SLUG_QUERY = gql `
-    	query GetLessonBySlug ($slug: String) {
-            lesson(where: {slug: $slug}) {
-                title
-                id
-                description
-                teacher {
-                    bio
-                    avatarURL
-                    name
-    }
-  }
-}
-`
-
-interface GetLessonBySlugResponse{
-    lesson: {
-        title: string;
-        videoId: string;
-        description: string;
-        teacher:{
-            bio: string;
-            avatarURL: string;
-            name: string; 
-        }
-    }
-}
 
 interface VideoProps{
     lessonSlug: string;
 }
 
 export function Video(props: VideoProps){
-    const { data } = useQuery<GetLessonBySlugResponse>(GET_LESSON_BY_SLUG_QUERY, { 
+    const { data } = useGetLessonBySlugQuery( { 
         variables: {
             slug: props.lessonSlug,
         }
 
     })
-if (!data) {
+
+if (!data || !data.lesson) {
     return (
         <div className="flex-1">
             <p>Careggando...</p>
@@ -55,7 +29,7 @@ if (!data) {
             <div className="bg-black">
                 <div className="h-full w-full max-w-[1100px] max-h-[60vh] aspect-video">
                     <Player>
-                        <Youtube videoId={data.lesson.videoId} />
+                        <Youtube videoId={data.lesson.videoId} key={data.lesson.videoId}/>
                         <DefaultUi />
                     </Player>
                 </div>
@@ -72,7 +46,8 @@ if (!data) {
                         {data.lesson.description}
                         </p>
 
-                        <div className="flex items-center gap-4 mt-6">
+                        {data.lesson.teacher && (
+                            <div className="flex items-center gap-4 mt-6">
                             <img src={data.lesson.teacher.avatarURL} alt="" className="h-16 w-16 rounded-full border-2 border-blue-500"/>
 
                             <div>
@@ -81,6 +56,7 @@ if (!data) {
                             </div>
 
                         </div>
+                        )}
 
                     </div>
                     
