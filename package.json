@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "date-fns": "^2.28.0",
-    "dayjs": "^1.11.3",
-    "phosphor-react": "^1.4.1"
-  }
-}
