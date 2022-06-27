@@ -27,9 +27,9 @@ if (!data || !data.lesson) {
     return (
         <div className="flex-1">
             <div className="bg-black">
-                <div className="h-full w-full max-w-[1100px] max-h-[60vh] aspect-video">
+                <div className="h-full w-full max-w-[1100px] max-h-[60vh] aspect-video ">
                     <Player>
-                        <Youtube videoId={data.lesson.videoId} key={data.lesson.videoId}/>
+                        <Youtube videoId={data.lesson.videoId}/>
                         <DefaultUi />
                     </Player>
                 </div>
