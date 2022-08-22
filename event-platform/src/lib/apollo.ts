@@ -1,5 +1,5 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client";
-
+console.log("Apertou");
 export const client = new ApolloClient({
   uri: 'https://api-sa-east-1.graphcms.com/v2/cl4nl40z908jo01xpc26j4ukg/master',
   headers: {
